@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pledis Entertainment 旗下藝人</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        /* 導航欄 */
+        header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+        
+        nav a:hover {
+            color: #ff6b6b;
+        }
+        
+        /* 主要內容容器 */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* 英雄區段 */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            border-radius: 10px;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* 藝人選擇 Tab */
+        .artist-tabs {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .tab-button {
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .tab-button:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .tab-button.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        /* 區段 */
+        .section {
+            margin: 3rem 0;
+        }
+        
+        .section h2 {
+            font-size: 36px;
+            margin-bottom: 2rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 1rem;
+        }
+        
+        .section h3 {
+            font-size: 28px;
+            margin: 2rem 0 1rem 0;
+            color: #667eea;
+        }
+        
+        /* 藝人內容容器 */
+        .artist-content {
+            display: none;
+        }
+        
+        .artist-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        /* 團體照片區段 */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .gallery-item {
+            background: #f5f5f5;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        
+        .gallery-caption {
+            padding: 1rem;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        /* 影片區段 */
+        .video-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .video-item {
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        .video-item iframe {
+            width: 100%;
+            height: 250px;
+            border: none;
+        }
+        
+        .video-title {
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            background: #1a1a2e;
+        }
+        
+        /* 介紹盒子 */
+        .intro-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .intro-box h4 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 20px;
+        }
+        
+        .intro-box p {
+            line-height: 1.8;
+            font-size: 16px;
+            margin-bottom: 1rem;
+        }
+        
+        /* 成員卡片 */
+        .members {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .member-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s;
+        }
+        
+        .member-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .member-card h4 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-size: 18px;
+        }
+        
+        .member-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        /* 子團體區段 */
+        .subunit-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .subunit-card {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .subunit-card:nth-child(2) {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+        }
+        
+        .subunit-card:nth-child(3) {
+            background: linear-gradient(135deg, #fab1a0 0%, #e17055 100%);
+            color: white;
+        }
+        
+        .subunit-card:nth-child(4) {
+            background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%);
+        }
+        
+        .subunit-card:nth-child(5) {
+            background: linear-gradient(135deg, #55efc4 0%, #00b894 100%);
+        }
+        
+        .subunit-card h4 {
+            font-size: 22px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subunit-card p {
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        
+        /* 時間軸 */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+        
+        .timeline-item {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timeline-date {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-content {
+            color: #333;
+        }
+        
+        /* 個人頁面特色 */
+        .profile-header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .profile-header h1 {
+            font-size: 42px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-header p {
+            font-size: 18px;
+            margin-bottom: 0.3rem;
+        }
+        
+        /* 頁腳 */
+        footer {
+            background: #1a1a2e;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 0.5rem;
+            }
+            
+            nav a {
+                font-size: 14px;
+            }
+            
+            .artist-tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                width: 100%;
+            }
+            
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .section h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 導航欄 -->
+    <header>
+        <nav>
+            <div class="logo">PLEDIS</div>
+            <ul>
+                <li><a onclick="showArtist('seventeen')">SEVENTEEN</a></li>
+                <li><a onclick="showArtist('tws')">TWS</a></li>
+                <li><a onclick="showArtist('minhyun')">黃旼炫</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <!-- 主要內容 -->
+    <main>
+        <!-- 英雄區段 -->
+        <section class="hero">
+            <h1>Pledis Entertainment</h1>
+            <p>韓國頂級娛樂公司</p>
+            <p>展現多個世界級偶像團體與個人藝人</p>
+        </section>
+        
+        <div class="container">
+            <!-- 藝人選擇 Tabs -->
+            <div class="artist-tabs">
+                <button class="tab-button active" onclick="showArtist('seventeen')">SEVENTEEN</button>
+                <button class="tab-button" onclick="showArtist('tws')">TWS</button>
+                <button class="tab-button" onclick="showArtist('minhyun')">黃旼炫</button>
+            </div>
+            
+            <!-- ===================== SEVENTEEN 內容 ===================== -->
+            <div id="seventeen" class="artist-content active">
+                <!-- 英雄區段 -->
+                <section class="hero" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <h1>SEVENTEEN</h1>
+                    <p>Pledis Entertainment 旗下國際化男子偶像團體</p>
+                    <p>13位成員，自給自足的完美舞台表演</p>
+                </section>
+                
+                <!-- 團體照片區段 -->
+                <section class="section">
+                    <h2>📸 團體照片</h2>
+                    <div class="gallery">
+                        <div class="gallery-item">
+                            <img src="https://i.pinimg.com/736x/9d/fd/2d/9dfd2d57d1d484a9a1624a6490c46f42.jpg" alt="SEVENTEEN">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://i.pinimg.com/736x/ce/54/41/ce54415184a7c5044860d32def3603b0.jpg" alt="SEVENTEEN">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://i.pinimg.com/736x/3a/73/9f/3a739f793290b71a1027dde96b2d48e1.jpg" alt="SEVENTEEN">
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 經典舞台影片區段 -->
+                <section class="section">
+                    <h2>🎬 經典舞台影片</h2>
+                    <div class="video-container">
+                        <div class="video-item">
+                            <iframe src="https://www.youtube.com/embed/70HFPm2aK9g" allowfullscreen></iframe>
+                            <div class="video-title">Adore U 出道舞台</div>
+                        </div>
+                        <div class="video-item">
+                            <iframe src="https://www.youtube.com/embed/zSQ48zyWZrY" allowfullscreen></iframe>
+                            <div class="video-title">God of Music 表演</div>
+                        </div>
+                        <div class="video-item">
+                            <iframe src="https://www.youtube.com/embed/2lTN_tCtuq0" allowfullscreen></iframe>
+                            <div class="video-title">自製綜藝精選</div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 團體介紹區段 -->
+                <section class="section">
+                    <h2>📋 團體介紹</h2>
+                    
+                    <div class="intro-box">
+                        <h4>SEVENTEEN 簡介</h4>
+                        <p>
+                            SEVENTEEN（세븐틴）是 Pledis Entertainment 旗下的 13 人國際化男子偶像團體。
+                            於 2015 年 5 月 26 日透過練習生生活紀錄節目《小綠屋》與實境節目《SEVENTEEN Project：出道大作戰》第七集出道 Showcase 正式出道，
+                            並於 2015 年 5 月 29 日發行首張迷你專輯《17 Carat》，主打曲為〈Adore U（아낀다）〉。
+                        </p>
+                        <p>
+                            成員來自韓國、美國、中國等多個國家，代表著高度國際化的偶像團體。
+                            由於成員參與每一張專輯的編曲作曲、作詞和編舞、自家綜藝、MV 拍攝剪輯，
+                            而獲得「自給自足偶像（자체제작 아이돌）」的稱號。
+                        </p>
+                    </div>
+                    
+                    <h3>團體架構</h3>
+                    
+                    <div class="intro-box">
+                        <h4>主隊長與三大分隊</h4>
+                        <p>
+                            <strong>S.COUPS</strong> - 總隊長及 Hip-Hop Team 隊長<br>
+                            <strong>WOOZI</strong> - Vocal Team 隊長<br>
+                            <strong>HOSHI</strong> - Performance Team 隊長<br>
+                            <br>
+                            這三位隊長組成 <strong>SVT LEADERS</strong>。
+                        </p>
+                    </div>
+                </section>
+                
+                <!-- 成員介紹 -->
+                <section class="section">
+                    <h2>👥 全體成員</h2>
+                    
+                    <h3>韓國籍成員</h3>
+                    <div class="members">
+                        <div class="member-card">
+                            <h4>S.COUPS</h4>
+                            <p>總隊長<br>Hip-Hop Team 隊長</p>
+                        </div>
+                        <div class="member-card">
+                            <h4>JEONGHAN</h4>
+                            <p>Vocal Team</p>
+                        </div>
+                        <div class="member-card">
+                            <h4>HOSHI</h4>
+                            <p>Performance Team 隊長<br>舞蹈專家</p>
+                        </div>
+                        <div class="member-card">
+                            <h4>WONWOO</h4>
+                            <p>Hip-Hop Team</p>
+                        </div>
+                        <div class="member-card">
+                            <h4>WOOZI</h4>
+                            <p>Vocal Team 隊長<br>音樂製作</p>
+                        </div>
+                        <div class="member-card">
+                            <h4>DK</h4>
+                            <p>Vocal Team</p>
+                        </div>
+                        <div class="member-card">
+                            <h4>MINGYU</h4>
+                            <p>Performance Team</p>
+                        </div>
+                        <div class="member-card">
+                            <h4>SEUNGKWAN</h4>
+                            <p>Vocal Team</p>
+                        </div>
+                        <div class="member-card">
+                            <h4>DINO</h4>
+                            <p>Performance Team<br>最年輕成員</p>
+                        </div>
+                    </div>
+                    
+                    <h3>國際成員</h3>
+                    <div class="members">
+                        <div class="member-card">
+                            <h4>JOSHUA</h4>
+                            <p>美籍韓裔<br>Vocal Team</p>
+                        </div>
+                        <div class="member-card">
+                            <h4>VERNON</h4>
+                            <p>美韓雙籍<br>Hip-Hop Team</p>
+                        </div>
+                        <div class="member-card">
+                            <h4>JUN</h4>
+                            <p>中國籍<br>Performance Team</p>
+                        </div>
+                        <div class="member-card">
+                            <h4>THE 8</h4>
+                            <p>中國籍<br>Hip-Hop Team</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 子團體區段 -->
+                <section class="section">
+                    <h2>🎭 子團體（Subunit）</h2>
+                    <p style="margin-bottom: 2rem; font-size: 16px;">
+                        SEVENTEEN 旗下有五個活躍的子團體，由不同成員組成，展現各自的音樂風格與特色。
+                    </p>
+                    <div class="subunit-container">
+                        <div class="subunit-card">
+                            <h4>BSS（夫碩順）</h4>
+                            <p>
+                                <strong>隊長：DK</strong><br>
+                                成員：HOSHI、SEUNGKWAN<br>
+                                <br>
+                                以活力四射與溫暖氛圍著稱的子團體，經常參與綜藝節目。
+                            </p>
+                        </div>
+                        <div class="subunit-card">
+                            <h4>JxW<br>（JEONGHAN X WONWOO）</h4>
+                            <p>
+                                成員：JEONGHAN、WONWOO<br>
+                                <br>
+                                展現成熟與磁性嗓音的組合，發行多首高質量音樂作品。
+                            </p>
+                        </div>
+                        <div class="subunit-card">
+                            <h4>HxW<br>（HOSHI X WOOZI）</h4>
+                            <p>
+                                成員：HOSHI、WOOZI<br>
+                                <br>
+                                結合舞蹈與音樂製作，打造獨特的音樂風格。
+                            </p>
+                        </div>
+                        <div class="subunit-card">
+                            <h4>CxM<br>（S.COUPS X MINGYU）</h4>
+                            <p>
+                                <strong>隊長：MINGYU</strong><br>
+                                成員：S.COUPS、MINGYU<br>
+                                <br>
+                                以強勁的舞蹈與嘻哈風格展現團隊實力。
+                            </p>
+                        </div>
+                        <div class="subunit-card">
+                            <h4>DxS<br>（DK X SEUNGKWAN）</h4>
+                            <p>
+                                <strong>隊長：SEUNGKWAN</strong><br>
+                                成員：DK、SEUNGKWAN<br>
+                                <br>
+                                以優美和聲與親切魅力征服粉絲的組合。
+                            </p>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 出道歷程時間軸 -->
+                <section class="section">
+                    <h2>📅 出道歷程</h2>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">2015 年 5 月 26 日</div>
+                            <div class="timeline-content">
+                                透過練習生生活紀錄節目《小綠屋》與實境節目《SEVENTEEN Project：出道大作戰》第七集出道 Showcase 正式出道
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">2015 年 5 月 29 日</div>
+                            <div class="timeline-content">
+                                發行首張迷你專輯《17 Carat》，主打曲為〈Adore U（아낀다）〉，正式開啟偶像生涯
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">持續至今</div>
+                            <div class="timeline-content">
+                                以「自給自足偶像」身份，持續參與編曲作曲、作詞、編舞、自家綜藝、MV 製作等各個環節，
+                                成為 K-POP 代表性團體，在全球擁有龐大粉絲基礎
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+            <!-- ===================== TWS 內容 ===================== -->
+            <div id="tws" class="artist-content">
+                <!-- 英雄區段 -->
+                <section class="hero" style="background: linear-gradient(135deg, #00b894 0%, #0984e3 100%);">
+                    <h1>TWS</h1>
+                    <p>Pledis Entertainment 最新推出的六人男子音樂團體</p>
+                    <p>2024 年度新興偶像代表</p>
+                </section>
+                
+                <!-- 團體照片區段 -->
+                <section class="section">
+                    <h2>📸 團體照片</h2>
+                    <div class="gallery">
+                        <div class="gallery-item">
+                            <img src="https://via.placeholder.com/300x300?text=TWS+Official" alt="官方宣傳照">
+                            <div class="gallery-caption">官方宣傳照</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://via.placeholder.com/300x300?text=TWS+Debut" alt="出道宣傳">
+                            <div class="gallery-caption">出道宣傳</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://via.placeholder.com/300x300?text=TWS+Stage" alt="舞台造型">
+                            <div class="gallery-caption">舞台造型</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://via.placeholder.com/300x300?text=TWS+Behind" alt="幕後花絮">
+                            <div class="gallery-caption">幕後花絮</div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 經典舞台影片區段 -->
+                <section class="section">
+                    <h2>🎬 舞台影片</h2>
+                    <div class="video-container">
+                        <div class="video-item">
+                            <iframe src="https://www.youtube.com/embed/9f6AdfijSTg" allowfullscreen></iframe>
+                            <div class="video-title">出道秀</div>
+                        </div>
+                        <div class="video-item">
+                            <iframe src="https://www.youtube.com/embed/MiO16KlMPaU" allowfullscreen></iframe>
+                            <div class="video-title">最新歌曲 MV</div>
+                        </div>
+                        <div class="video-item">
+                            <iframe src="https://www.youtube.com/embed/BWbh3LGiSUo" allowfullscreen></iframe>
+                            <div class="video-title">舞蹈練習室</div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 團體介紹區段 -->
+                <section class="section">
+                    <h2>📋 團體介紹</h2>
+                    
+                    <div class="intro-box">
+                        <h4>TWS 簡介</h4>
+                        <p>
+                            TWS 是韓國 Pledis Entertainment 於 2024 年推出的六人男子音樂團體。
+                            由五位韓國成員 SHINYU、DOHOON、YOUNGJAE、JIHOON、KYUNGMIN，
+                            以及一位中國成員 HANJIN 組成，展現高度國際化的音樂陣容。
+                        </p>
+                        <p>
+                            團體於 2024 年 1 月 22 日以迷你專輯《Sparkling Blue》正式出道，
+                            標誌著新一代偶像的誕生。作為 Pledis Entertainment 最新推出的團體，
+                            TWS 承載著公司對新世代偶像發展的期許與投入。
+                        </p>
+                    </div>
+                    
+                    <h3>團體特色</h3>
+                    
+                    <div class="intro-box">
+                        <h4>年輕活力與國際視野</h4>
+                        <p>
+                            TWS 代表著 K-POP 新世代的活力與創新精神。
+                            團體成員年輕活躍，為粉絲帶來全新的音樂與舞蹈表演體驗。<br>
+                            <br>
+                            <strong>隊長 SHINYU</strong> 帶領整個團隊，展現強大的領導力與舞蹈實力，
+                            與 HANJIN 的中國成員組合，進一步拓展團體的國際吸引力。
+                        </p>
+                    </div>
+                </section>
+                
+                <!-- 成員介紹 -->
+                <section class="section">
+                    <h2>👥 全體成員</h2>
+                    
+                    <h3>韓國籍成員</h3>
+                    <div class="members">
+                        <div class="member-card">
+                            <h4>SHINYU</h4>
+                            <p>隊長<br>主舞</p>
+                        </div>
+                        <div class="member-card">
+                            <h4>DOHOON</h4>
+                            <p>副主舞</p>
+                        </div>
+                        <div class="member-card">
+                            <h4>YOUNGJAE</h4>
+                            <p>主唱</p>
+                        </div>
+                        <div class="member-card">
+                            <h4>JIHOON</h4>
+                            <p>副主唱</p>
+                        </div>
+                        <div class="member-card">
+                            <h4>KYUNGMIN</h4>
+                            <p>說唱&副舞</p>
+                        </div>
+                    </div>
+                    
+                    <h3>國際成員</h3>
+                    <div class="members">
+                        <div class="member-card">
+                            <h4>HANJIN</h4>
+                            <p>中國籍<br>多才多藝</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 出道歷程時間軸 -->
+                <section class="section">
+                    <h2>📅 出道歷程</h2>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">2024 年 1 月 22 日</div>
+                            <div class="timeline-content">
+                                TWS 以迷你專輯《Sparkling Blue》正式出道，展現新一代偶像的活力與魅力
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">2024 年至今</div>
+                            <div class="timeline-content">
+                                持續發行新作品，參與各大音樂節目與演唱會，
+                                不斷向全球粉絲展現 Pledis Entertainment 旗下新人團體的實力與潛力
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+            <!-- ===================== 黃旼炫 內容 ===================== -->
+            <div id="minhyun" class="artist-content">
+                <!-- 個人頁面 -->
+                <section class="profile-header">
+                    <h1>黃旼炫 (Hwang Min-hyun)</h1>
+                    <p>韓國男歌手、演員</p>
+                    <p>出生日期：1995 年 8 月 9 日</p>
+                </section>
+                
+                <!-- 個人照片區段 -->
+                <section class="section">
+                    <h2>📸 個人照片</h2>
+                    <div class="gallery">
+                        <div class="gallery-item">
+                            <img src="https://via.placeholder.com/300x300?text=Min-hyun+Profile" alt="個人宣傳照">
+                            <div class="gallery-caption">個人宣傳照</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://via.placeholder.com/300x300?text=Min-hyun+Stage" alt="舞台表演">
+                            <div class="gallery-caption">舞台表演</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://via.placeholder.com/300x300?text=Min-hyun+Drama" alt="影視作品">
+                            <div class="gallery-caption">影視作品</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://via.placeholder.com/300x300?text=Min-hyun+Behind" alt="幕後花絮">
+                            <div class="gallery-caption">幕後花絮</div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 影片與表演區段 -->
+                <section class="section">
+                    <h2>🎬 表演與音樂</h2>
+                    <div class="video-container">
+                        <div class="video-item">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                            <div class="video-title">個人音樂作品</div>
+                        </div>
+                        <div class="video-item">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                            <div class="video-title">舞台表演</div>
+                        </div>
+                        <div class="video-item">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+                            <div class="video-title">演員作品花絮</div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 個人介紹 -->
+                <section class="section">
+                    <h2>📋 藝人介紹</h2>
+                    
+                    <div class="intro-box">
+                        <h4>黃旼炫簡介</h4>
+                        <p>
+                            黃旼炫（황민현，Hwang Min-hyun）是一位才華洋溢的韓國男歌手與演員。
+                            出生於 1995 年 8 月 9 日，因其獨特的嗓音、舞蹈實力與表演魅力而廣受喜愛。
+                        </p>
+                        <p>
+                            旼炫曾是韓國男子團體 <strong>NU'EST</strong> 的成員，擔任團隊領唱，
+                            展現出色的演唱實力與舞台氣場。
+                        </p>
+                    </div>
+                    
+                    <h3>職業生涯歷程</h3>
+                    
+                    <div class="intro-box">
+                        <h4>NU'EST 時期</h4>
+                        <p>
+                            黃旼炫以 NU'EST 成員身分活動多年，擔任團隊的領唱，以其穩定的嗓音與專業素養贏得眾多粉絲的喜愛。
+                        </p>
+                    </div>
+                    
+                    <div class="intro-box">
+                        <h4>Wanna One 時期（2017-2019）</h4>
+                        <p>
+                            2017 年，NU'EST 暫停活動，旼炫參加了 Mnet 選秀節目《PRODUCE 101 第二季》。
+                            通過激烈的競爭與精彩的表現，旼炫最終以<strong>第九名</strong>的優異成績成為期間限定團體 <strong>Wanna One</strong> 的一員。
+                        </p>
+                        <p>
+                            在 Wanna One 期間（2017 年 8 月 7 日 - 2019 年 1 月 27 日），旼炫擔任團隊的領唱，
+                            與其他 10 位成員一起展開為期一年半的精彩活動，創造了眾多經典舞台表演與音樂作品。
+                            這段時期使他獲得了更廣泛的認可與人氣。
+                        </p>
+                    </div>
+                    
+                    <div class="intro-box">
+                        <h4>回歸 NU'EST（2019）</h4>
+                        <p>
+                            2018 年 12 月 31 日，限定團體 Wanna One 的合約正式結束。
+                            2019 年 1 月 27 日，Wanna One 正式結束所有活動。
+                            之後旼炫回歸原所屬團體 NU'EST，繼續以成員身分進行團體活動。
+                        </p>
+                    </div>
+                    
+                    <div class="intro-box">
+                        <h4>個人歌手與演員時期（2022 年至今）</h4>
+                        <p>
+                            2022 年 3 月 14 日，NU'EST 宣布正式解散。
+                            此後，黃旼炫開始以<strong>個人歌手及演員</strong>的身分進行活動，
+                            展現更加多元的藝術風格與才華。在演員領域，旼炫參與各類電視劇與電影製作，
+                            充分展現其表演實力。在音樂方面，旼炫持續推出個人音樂作品，
+                            為粉絲帶來更加個性化的音樂風格。
+                        </p>
+                    </div>
+                </section>
+                
+                <!-- 職業生涯時間軸 -->
+                <section class="section">
+                    <h2>📅 職業生涯里程碑</h2>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">2017 年</div>
+                            <div class="timeline-content">
+                                NU'EST 暫停活動，參加 Mnet 選秀節目《PRODUCE 101 第二季》
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">2017 年 8 月 7 日</div>
+                            <div class="timeline-content">
+                                以第九名成績加入期間限定團體 Wanna One，擔任領唱
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">2018 年 12 月 31 日</div>
+                            <div class="timeline-content">
+                                Wanna One 合約結束
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">2019 年 1 月 27 日</div>
+                            <div class="timeline-content">
+                                Wanna One 正式結束所有活動，旼炫回歸 NU'EST
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">2022 年 3 月 14 日</div>
+                            <div class="timeline-content">
+                                NU'EST 正式解散，旼炫開始以個人歌手及演員身分活動
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">2022 年至今</div>
+                            <div class="timeline-content">
+                                持續推出個人音樂作品，參與各類電視劇與電影製作，展現多元的藝術才華
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 頁腳 -->
+    <footer>
+        <p>&copy; 2026 Pledis Entertainment. All Rights Reserved.</p>
+        <p>Home of World-Class K-POP Artists</p>
+    </footer>
+    
+    <script>
+        function showArtist(artist) {
+            // 隱藏所有內容
+            document.querySelectorAll('.artist-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // 移除所有按鈕的 active 狀態
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // 顯示選定的內容
+            document.getElementById(artist).classList.add('active');
+            
+            // 找到對應的按鈕並添加 active 狀態
+            document.querySelectorAll('.tab-button').forEach(button => {
+                if (button.textContent.includes('SEVENTEEN') && artist === 'seventeen') {
+                    button.classList.add('active');
+                } else if (button.textContent.includes('TWS') && artist === 'tws') {
+                    button.classList.add('active');
+                } else if (button.textContent.includes('黃旼炫') && artist === 'minhyun') {
+                    button.classList.add('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
